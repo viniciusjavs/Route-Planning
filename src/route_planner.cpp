@@ -38,17 +38,18 @@ void RoutePlanner::AddNeighbors(RouteModel::Node *current_node) {
   }
 }
 
-// TODO 5: Complete the NextNode method to sort the open list and return the next node.
-// Tips:
-// - Sort the open_list according to the sum of the h value and g value.
-// - Create a pointer to the node in the list with the lowest sum.
-// - Remove that node from the open_list.
-// - Return the pointer.
-
+/*
+   Sort the open list and return the next node.
+*/
 RouteModel::Node *RoutePlanner::NextNode() {
-
+  // Sort in descending order according to the sum of the h value and g value.
+  std::sort(std::begin(open_list), std::end(open_list), [](auto lhs, auto rhs) {
+    return (lhs->h_value + lhs->g_value) > (rhs->h_value + rhs->g_value);
+  });
+  auto node = open_list.back();
+  open_list.pop_back(); // discard used
+  return node;
 }
-
 
 // TODO 6: Complete the ConstructFinalPath method to return the final path found from your A* search.
 // Tips:
